@@ -1,0 +1,114 @@
+group 'LearningSpringProject'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+buildscript {
+    repositories {
+
+        mavenCentral()
+        mavenLocal()
+        maven {
+            url "http://repo1.maven.org/maven2"
+        }
+        maven {
+            url "http://repo.spring.io/plugins-release"
+        }
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.0.RELEASE'
+       // classpath 'org.jsonschema2pojo:jsonschema2pojo-gradle-plugin:0.4.30'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'project-report'
+apply plugin: 'groovy'
+apply plugin: 'application'
+apply plugin: 'maven'
+//apply plugin: 'jsonschema2pojo'
+apply plugin: 'jacoco'
+//apply from: file('gradle/tests.gradle')
+
+ext {
+}
+
+jar {
+    baseName = 'orders'
+}
+
+configurations {
+  //  jaxb
+    testFunctionalCompile.extendsFrom testCompile
+    testFunctionalCompile.extendsFrom testRuntime
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+bootRun {
+    systemProperties "spring.profiles.active": "local"
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: 'spring-boot-starter-logging'
+    }
+    compile("org.springframework.boot:spring-boot-starter-data-jpa") {
+        exclude module: 'spring-boot-starter-logging'
+    }
+    compile("org.springframework.boot:spring-boot-starter-actuator") {
+        exclude module: 'spring-boot-starter-logging'
+    }
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    compile(
+            "org.slf4j:slf4j-api:1.7.7",
+            "commons-lang:commons-lang:2.6",
+            "org.apache.commons:commons-collections4:4.0"
+    )
+  //  compile("org.springframework.boot:spring-boot-starter-security")
+    compile group: 'commons-logging', name: 'commons-logging', version: '1.1.1'
+    //compile group: 'com.googlecode.protobuf-java-format', name: 'protobuf-java-format', version: '1.4'
+    compile 'org.projectlombok:lombok:1.16.22'
+    //compile 'com.google.code.gson:gson:2.8.0'
+    //compile 'org.jsonschema2pojo:jsonschema2pojo-gradle-plugin:0.4.30'
+    //compile 'org.modelmapper:modelmapper:0.7.5'
+    compile 'org.hibernate:hibernate-core:5.2.1.Final'
+    compile 'org.hibernate:hibernate-entitymanager:5.2.1.Final'
+    //compile('org.apache.httpcomponents:httpclient:4.5.1')
+   // compile 'com.googlecode.libphonenumber:libphonenumber:8.5.2'
+ //   compile 'org.apache.ignite:ignite-indexing:2.3.0'
+    compile 'com.h2database:h2:1.4.196'
+ //   compile group: 'postgresql', name: 'postgresql', version: '9.1-901.jdbc4'
+    // Spock Unit Testing
+    testCompile("org.springframework.boot:spring-boot-starter-test") {
+        exclude module: 'spring-boot-starter-logging'
+    }
+   // testCompile 'org.codehaus.groovy:groovy-all:2.4.7'
+   // testCompile 'com.h2database:h2:1.4.196'
+  //  testCompile 'org.skyscreamer:jsonassert:1.2.3'
+    testCompile("org.spockframework:spock-spring:1.0-groovy-2.4") { exclude module: 'junit-dep' }
+  //  testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+    //testRuntime 'cglib:cglib-nodep:3.1'
+    // Enables mocking of classes (in addition to interfaces)
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2'
+}
+
+compileJava
+
+//build.finalizedBy testFunctional
