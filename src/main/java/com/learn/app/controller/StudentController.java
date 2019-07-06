@@ -1,14 +1,13 @@
 package com.learn.app.controller;
 
 
+import com.learn.app.dto.MultiStudentRequestDto;
+import com.learn.app.dto.StudentRequestDto;
 import com.learn.app.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,18 +24,49 @@ public class StudentController {
         return new ResponseEntity<>(studentService.getAllStudent(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/student/{id}/{name}", method = RequestMethod.POST)
-    public ResponseEntity getQuestion(@PathVariable Integer id,@PathVariable String name) {
+    @RequestMapping(path = "/student", method = RequestMethod.POST)
+    public ResponseEntity addStudent(@RequestBody StudentRequestDto studentRequestDto) {
 
-        studentService.addStudent(id,name);
+        studentService.addStudent(studentRequestDto.getStudentName(),studentRequestDto.getPhoneNumber());
         return new ResponseEntity<>( HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/student/{id}", method = RequestMethod.GET)
-    public ResponseEntity searchStudentFromId(@PathVariable Integer id) {
+    @RequestMapping(path = "/multiple_students", method = RequestMethod.POST)
+    public ResponseEntity addMultipleStudents(@RequestBody MultiStudentRequestDto students) {
 
-        // studentService.getAllStudent(name);
-        return new ResponseEntity<>(studentService.getStudentOfId(id), HttpStatus.OK);
+
+        for(StudentRequestDto s:students.getStudents()){
+            studentService.addStudent(s.getStudentName(),s.getPhoneNumber());
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-}
+
+
+        /*@RequestMapping(path = "/student/{id}/{name}/{phoneMunber}", method = RequestMethod.POST)
+        public ResponseEntity addStudent(@PathVariable Integer id,@PathVariable String name,@PathVariable Integer phoneNumber) {
+
+            studentService.addStudent(id,name,phoneNumber);
+            return new ResponseEntity<>( HttpStatus.OK);
+        }
+
+        @RequestMapping(path = "/multiple_students", method = RequestMethod.POST)
+        public ResponseEntity addMultipleStuents(@RequestBody MultiStudentRequestDto students) {
+
+            int i=1;
+            for(String studentName:students.getStudents()){
+                studentService.addStudent(i++,studentName,phoneNumber);
+            }
+
+            return new ResponseEntity<>( HttpStatus.OK);
+        }
+
+        @RequestMapping(path = "/student/{id}", method = RequestMethod.GET)
+        public ResponseEntity searchStudentFromId(@PathVariable Integer id) {
+
+            // studentService.getAllStudent(name);
+            return new ResponseEntity<>(studentService.getStudentOfId(id), HttpStatus.OK);*/
+    }
+
+

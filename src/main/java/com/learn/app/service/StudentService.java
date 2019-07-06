@@ -22,10 +22,12 @@ public class StudentService {
     }
 
     @Transactional
-    public void addStudent(int studentId,String name){
+    public void addStudent(String name,String phoneNumber){
        StudentEntity studentEntity=new StudentEntity();
-       studentEntity.setStudentId(studentId);
+       //studentEntity.setStudentId(studentId);
        studentEntity.setStudentName(name);
+       studentEntity.setStudentPhoneNumber(phoneNumber);
+
 
        studentJpaRepo.saveAndFlush(studentEntity);
     }

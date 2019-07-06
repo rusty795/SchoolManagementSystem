@@ -23,6 +23,9 @@ public class StudentEntity {
     @Column(name="STUDENT_NAME", nullable = true)
     private String studentName;
 
+    @Column(name="STUDENT_PHONE_NUMBER", nullable = true)
+    private String studentPhoneNumber;
+
     public Integer getStudentId() {
         return studentId;
     }
@@ -37,5 +40,13 @@ public class StudentEntity {
 
     public void setStudentName(String studentName) {
         this.studentName = studentName;
+    }
+
+    public String getStudentPhoneNumber() {
+        return studentPhoneNumber;
+    }
+
+    public void setStudentPhoneNumber(String studentPhoneNumber) {
+        this.studentPhoneNumber = studentPhoneNumber;
     }
 }
